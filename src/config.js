@@ -1,23 +1,23 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { configure } from "@testing-library/react";
+import { getDatabase } from "firebase/database";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDxKBurLG6BACXhwa0cGvF4raEn-1yNC5Y",
-  authDomain: "trello-clone-57048.firebaseapp.com",
-  projectId: "trello-clone-57048",
-  storageBucket: "trello-clone-57048.appspot.com",
-  messagingSenderId: "484580945118",
-  appId: "1:484580945118:web:ee11a4cee91eed34dda64f",
-  measurementId: "G-PE0P191CBK",
+  apiKey: "AIzaSyAJ08yFdA7Tz-KD4jHVI1gCy1jCVI8qCW0",
+  authDomain: "test-b58b7.firebaseapp.com",
+  databaseURL: "https://test-b58b7-default-rtdb.firebaseio.com",
+  projectId: "test-b58b7",
+  storageBucket: "test-b58b7.appspot.com",
+  messagingSenderId: "581892965629",
+  appId: "1:581892965629:web:8d8b249350bb1c5672ea94",
+  measurementId: "G-TZW21JDFQ1",
 };
 
 // Initialize Firebase
-config.initializeApp(firebaseConfig);
 
-export default config;
+const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);
