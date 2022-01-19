@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "./component/List";
 import datalist from "./data/datalist";
 import { v4 as uuid } from "uuid";
@@ -6,6 +6,8 @@ import dataConnect from "./data/dataConnect";
 import InputContainer from "./component/inputContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { db } from "./firebase";
+import { set, ref, onValue, remove, update } from "firebase/database";
 
 const useStyle = makeStyles((theme) => ({
   root: {

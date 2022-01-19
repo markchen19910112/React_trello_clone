@@ -3,6 +3,9 @@ import { Paper, InputBase, Button, IconButton } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import dataConnect from "../data/dataConnect";
+import { db } from "../firebase";
+import { set, ref, onValue, remove, update } from "firebase/database";
+import { uid } from "uid";
 const useStyle = makeStyles((theme) => ({
   card: {
     margin: theme.spacing(0, 1, 1, 1),
@@ -34,6 +37,11 @@ export default function InputCard({ setOpen, listId, type }) {
   const handleBtnConfirm = () => {
     if (type === "card") {
       addMoreCard(title, listId);
+      const uuid = listId;
+      set(ref(db, `/${uuid}`), {
+        title,
+        uuid,
+      });
       setTitle("");
       setOpen(false);
     } else {
@@ -58,15 +66,15 @@ export default function InputCard({ setOpen, listId, type }) {
             value={title}
             placeholder={
               type === "card"
-                ? "Enter a title of this card.."
-                : "Enter list title..."
+                ? "Enter an item of this task.."
+                : "Enter a title of this card..."
             }
           />
         </Paper>
       </div>
       <div className={classes.confirm}>
         <Button className={classes.btnConfirm} onClick={handleBtnConfirm}>
-          {type === "card" ? "Add Card" : "Add List"}
+          {type === "card" ? "Add a new task " : "Add a new card"}
         </Button>
         <IconButton onClick={() => setOpen(false)}>
           <ClearIcon />
