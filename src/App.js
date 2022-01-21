@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
 import List from "./component/List";
 import datalist from "./data/datalist";
@@ -8,17 +9,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { db } from "./firebase";
 import { set, ref, onValue, remove, update } from "firebase/database";
+=======
+import React from "react";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./Home"
+import "./index.scss";
+>>>>>>> Stashed changes
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    minHeight: "100vh",
-    background: "#1E90FF",
-    width: "100%",
-    overflowY: "auto",
-  },
-}));
 
+<<<<<<< Updated upstream
 export default function App() {
   const [data, setData] = useState(datalist);
   const classes = useStyle();
@@ -137,5 +136,15 @@ export default function App() {
         </Droppable>
       </DragDropContext>
     </dataConnect.Provider>
+=======
+
+export default function App() {
+ 
+  return (
+    <div>  
+      <Navbar/>
+      <Home/>
+    </div>
+>>>>>>> Stashed changes
   );
 }
