@@ -6,8 +6,21 @@ import dataConnect from "./data/dataConnect";
 import InputContainer from "./component/inputContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { db } from "./firebase";
-import { set, ref, onValue, remove, update } from "firebase/database";
+import { uid } from "uid";
+import Todo from "./Todo";
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  addDoc,
+  serverTimestamp,
+  setDoc,
+  doc,
+  getFirestore,
+  getDocs,
+} from "firebase/firestore";
+import firebaseApp from "./firebase";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -19,9 +32,27 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
+const db = getFirestore(firebaseApp);
+
 export default function App() {
   const [data, setData] = useState(datalist);
+  const [frData, setFrData] = useState([]);
+
   const classes = useStyle();
+  useEffect(() => {
+    const fetchData = async () => {
+      const listCol = collection(db, "list");
+
+      const listSnapShot = await getDocs(listCol);
+      const lists = listSnapShot.docs.map((doc) => doc.data());
+      console.log(lists);
+      setFrData(lists);
+      //console.log(frData);
+    };
+
+    fetchData();
+  }, []);
+
   const addMoreCard = (title, listId) => {
     console.log(title, listId);
     const newCardId = uuid();
@@ -32,6 +63,17 @@ export default function App() {
 
     const list = data.lists[listId];
     list.cards = [...list.cards, newCard];
+
+    const flistItem = frData.find((flistItem) => flistItem.listId == listId);
+    flistItem.cards = [...flistItem.cards, newCard];
+    let prevItems = frData;
+    const fitemIndex = frData.findIndex((fitem) => fitem.listId == listId);
+
+    prevItems.splice(fitemIndex, 1, flistItem);
+
+    setFrData((prev) => {
+      return [...prevItems];
+    });
 
     const newState = {
       ...data,
@@ -126,9 +168,10 @@ export default function App() {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {data.listIds.map((listId, index) => {
-                const list = data.lists[listId];
-                return <List list={list} key={listId} index={index} />;
+              {frData.map((list, index) => {
+                //{data.listIds.map((listId, index) => {
+                //const list = data.lists[listId];
+                return <List list={list} key={list.listId} index={index} />;
               })}
               <InputContainer type="list" />
               {provided.placeholder}
