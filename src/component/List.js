@@ -5,6 +5,9 @@ import Title from "./Title";
 import Card from "./Card";
 import InputContainer from "./inputContainer";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { db } from "../firebase";
+import { doc, deleteDoc } from "firebase/firestore";
+
 const useStyle = makeStyles((theme) => ({
   root: {
     minWidth: "300px",
